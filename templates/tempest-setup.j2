@@ -1,0 +1,10 @@
+#!/bin/bash
+# Validate the overcloud deployment
+
+set -eux
+
+{% if configure_tempest|bool %}
+{% include 'configure-tempest.j2' %}
+{% endif %}
+
+tools/run-tests.sh --skip-file {{ working_dir }}/skipfile {{ test_regex }}

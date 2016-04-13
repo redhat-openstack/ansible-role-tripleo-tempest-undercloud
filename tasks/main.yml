@@ -1,0 +1,53 @@
+---
+# tasks file for ansible-role-tripleo-tempest-undercloud
+
+- name: Add fake driver to Ironic config
+  sudo: yes
+  lineinfile:
+    backup: true
+    backrefs: true
+    dest: '/etc/ironic/ironic.conf'
+    regexp: '^(enabled_drivers=(?:(?!fake).)*)$'
+    line: '\1,fake'
+
+- name: Restart the Ironic conductor service
+  sudo: yes
+  service: name=openstack-ironic-conductor state=restarted
+
+- name: Ensure the fake driver is enabled
+  shell: >
+    source {{ working_dir }}/stackrc;
+    ironic driver-list;
+  register: driver_list
+  failed_when: "'fake' not in driver_list.stdout"
+
+- name: Determine public_network_uuid when not yet defined
+  shell: >
+    source {{ working_dir }}/stackrc;
+    neutron net-list | grep ctlplane | sed 's/ | ctl.*//' | sed 's/| //';
+  register: public_network_id_result
+  when: public_network_uuid is not defined
+
+- name: Set public_network_uuid fact when not yet defined
+  set_fact:
+      public_network_uuid: "{{ public_network_id_result.stdout }}"
+  when: public_network_uuid is not defined
+
+- name: Copy tempest input file to undercloud
+  copy: src=files/tempest-deployer-input.conf dest=/home/stack/
+
+- name: Create overcloud tempest setup script
+  template:
+    src: tempest-setup.j2
+    dest: "{{ working_dir }}/undercloud-tempest-setup.sh"
+    mode: 0744
+
+- name: Create tempest skipfile
+  template:
+    src: skipfile.j2
+    dest: "{{ working_dir }}/skipfile"
+    mode: 0644
+
+- name: Execute tempest
+  shell: >
+    {{ working_dir }}/undercloud-tempest-setup.sh > {{ tempest_log_file }} 2>&1

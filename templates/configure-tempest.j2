@@ -1,0 +1,25 @@
+#
+# configure-tempest
+#
+
+source {{ working_dir }}/stackrc
+
+# Prepare Tempest directory sturcture
+rm -rf {{ working_dir }}/tempest
+mkdir {{ working_dir }}/tempest
+cd {{ working_dir }}/tempest
+/usr/share/openstack-tempest-*/tools/configure-tempest-directory
+
+# config_tempest assumes that Cinder is installed and accessible. Cinder is
+# not installed on the undercloud. Remove unneeded lines to prevent the tool
+# from bawking upon execution
+sed --in-place "/'volume'\: 'cinder',/d" tools/config_tempest.py
+sed --in-place "/'volume'\: \['v1', 'v2'\]/d" tools/config_tempest.py
+
+# Generate tempest.conf used for Tempest execution
+tools/config_tempest.py --out etc/tempest.conf --network-id {{ public_network_uuid }} --deployer-input ~/tempest-deployer-input.conf --debug --create \
+identity.uri $OS_AUTH_URL \
+identity.admin_password $OS_PASSWORD \
+network.tenant_network_cidr 192.168.0.0/24 \
+object-storage.operator_role swiftoperator \
+orchestration.stack_owner_role heat_stack_owner

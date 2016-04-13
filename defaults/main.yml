@@ -1,0 +1,6 @@
+---
+# defaults file for ansible-role-tripleo-tempest-undercloud
+configure_tempest: true
+tempest_log_file: 'tempest_output.log'
+test_regex: 'tempest\.api\.baremetal.*'
+working_dir: '/home/stack'
