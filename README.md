@@ -32,6 +32,11 @@ Example Playbook
       roles:
         - ansible-role-tripleo-tempest-undercloud
 
+Example Execution (C.A.T)
+-------------------------
+
+$ git clone https://github.com/redhat-openstack/ci-ansible-tripleo
+$ ./deploy.sh --playbook tempest-undercloud <target virthost>
 
 License
 -------
