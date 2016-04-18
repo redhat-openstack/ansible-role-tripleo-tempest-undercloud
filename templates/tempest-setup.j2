@@ -3,8 +3,8 @@
 
 set -eux
 
-{% if configure_tempest|bool %}
+{% if arttu_configure_tempest|bool %}
 {% include 'configure-tempest.j2' %}
 {% endif %}
 
-tools/run-tests.sh --skip-file {{ working_dir }}/skipfile {{ test_regex }}
+tools/run-tests.sh --skip-file {{ arttu_working_dir }}/skipfile {{ arttu_test_regex }}

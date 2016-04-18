@@ -2,12 +2,12 @@
 # configure-tempest
 #
 
-source {{ working_dir }}/stackrc
+source {{ arttu_working_dir }}/stackrc
 
 # Prepare Tempest directory sturcture
-rm -rf {{ working_dir }}/tempest
-mkdir {{ working_dir }}/tempest
-cd {{ working_dir }}/tempest
+rm -rf {{ arttu_working_dir }}/tempest
+mkdir {{ arttu_working_dir }}/tempest
+cd {{ arttu_working_dir }}/tempest
 /usr/share/openstack-tempest-*/tools/configure-tempest-directory
 
 # config_tempest assumes that Cinder is installed and accessible. Cinder is

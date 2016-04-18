@@ -13,10 +13,10 @@ Liberty or Mitaka under/overcloud have been deployed.
 Role Variables
 --------------
 
-* configure_tempest: <true>  -- Flag which toggles tempest env. setup prior to test execution
-* tempest_log_file: <'tempest_output.log'> -- Output file into which Tempest execution output will be added to
-* test_regex: <'tempest\.api\.baremetal.*'> -- Regex applied during test execution controlling which tests are executed
-* working_dir: <'/home/stack'> -- Location from which Tempest will be configured and executed
+* arttu_configure_tempest: <true>  -- Flag which toggles tempest env. setup prior to test execution
+* arttu_tempest_log_file: <'tempest_output.log'> -- Output file into which Tempest execution output will be added to
+* arttu_test_regex: <'tempest\.api\.baremetal.*'> -- Regex applied during test execution controlling which tests are executed
+* arttu_working_dir: <'/home/stack'> -- Location from which Tempest will be configured and executed
 
 Dependencies
 ------------

@@ -16,14 +16,14 @@
 
 - name: Ensure the fake driver is enabled
   shell: >
-    source {{ working_dir }}/stackrc;
+    source {{ arttu_working_dir }}/stackrc;
     ironic driver-list;
   register: driver_list
   failed_when: "'fake' not in driver_list.stdout"
 
 - name: Determine public_network_uuid when not yet defined
   shell: >
-    source {{ working_dir }}/stackrc;
+    source {{ arttu_working_dir }}/stackrc;
     neutron net-list | grep ctlplane | sed 's/ | ctl.*//' | sed 's/| //';
   register: public_network_id_result
   when: public_network_uuid is not defined
@@ -39,15 +39,15 @@
 - name: Create overcloud tempest setup script
   template:
     src: tempest-setup.j2
-    dest: "{{ working_dir }}/undercloud-tempest-setup.sh"
+    dest: "{{ arttu_working_dir }}/undercloud-tempest-setup.sh"
     mode: 0744
 
 - name: Create tempest skipfile
   template:
     src: skipfile.j2
-    dest: "{{ working_dir }}/skipfile"
+    dest: "{{ arttu_working_dir }}/skipfile"
     mode: 0644
 
 - name: Execute tempest
   shell: >
-    {{ working_dir }}/undercloud-tempest-setup.sh > {{ tempest_log_file }} 2>&1
+    {{ arttu_working_dir }}/undercloud-tempest-setup.sh > {{ arttu_tempest_log_file }} 2>&1
