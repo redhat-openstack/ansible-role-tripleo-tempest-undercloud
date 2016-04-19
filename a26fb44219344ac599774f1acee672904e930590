@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_cd03b141",
+        "filename": "templates/configure-tempest.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1007211
+      },
+      "writtenOn": "2016-04-19T13:30:59Z",
+      "side": 1,
+      "message": "does this one need a rename too?",
+      "range": {
+        "startLine": 20,
+        "startChar": 60,
+        "endLine": 20,
+        "endChar": 85
+      },
+      "revId": "a26fb44219344ac599774f1acee672904e930590",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
